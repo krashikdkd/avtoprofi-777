@@ -1,0 +1,93 @@
+.bani-menu-overlay[hidden] { display: none !important; }
+.bani-menu-overlay {
+  position: fixed; inset: 0; z-index: 9999; display: grid; place-items: stretch;
+  background: rgba(10, 10, 9, .52); opacity: 0; transition: opacity .28s ease;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.bani-menu-overlay.is-open { opacity: 1; }
+.bani-menu-panel {
+  position: relative; margin-left: auto; width: min(520px, 100%); min-height: 100%;
+  padding: clamp(24px, 6vw, 48px); overflow-y: auto;
+  color: var(--ids-color-ink, #171612); background: var(--ids-color-ground, #f1eee5);
+  transform: translateX(32px); transition: transform .38s cubic-bezier(.2,.75,.25,1);
+}
+.bani-menu-overlay.is-open .bani-menu-panel { transform: translateX(0); }
+.bani-menu-top { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom: clamp(48px, 10vh, 100px); }
+.bani-menu-brand { font-size: 14px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+.bani-menu-close { display:grid; place-items:center; width:48px; height:48px; border:1px solid currentColor; border-radius:50%; color:inherit; background:transparent; font:inherit; font-size:28px; cursor:pointer; }
+.bani-menu-links { display:grid; gap:0; }
+.bani-menu-links a, .bani-menu-cta { display:block; padding:18px 0; border:0; border-bottom:1px solid color-mix(in srgb, currentColor 22%, transparent); color:inherit; background:none; font:inherit; font-size:clamp(24px, 5vw, 38px); line-height:1.15; text-align:left; text-decoration:none; cursor:pointer; }
+.bani-menu-links a:hover, .bani-menu-cta:hover { color:var(--ids-color-accent, #315fad); }
+.bani-menu-contact { display:inline-block; margin-top:38px; font-size:20px; font-weight:700; text-decoration:none; }
+html.bani-menu-open, html.bani-menu-open body { overflow:hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .bani-menu-overlay, .bani-menu-panel { transition:none; }
+}
+/* Keep the three-photo sequence under direct scroll control in Safari. */
+.x-gallery[data-motion="live"] .x-pile-photo { will-change: translate; }
+
+/* Three overlapping photo cards, matching the original fan layout. */
+.x-gallery .x-pile {
+  display: flex !important;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0 !important;
+  padding-inline: clamp(8px, 2vw, 22px) !important;
+  overflow: visible;
+}
+.x-gallery .x-pile-photo {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  margin-left: clamp(-24px, -2.2vw, -12px);
+  rotate: 0deg !important;
+  transform: rotate(var(--pile-angle, 0deg));
+  transform-origin: 50% 85%;
+  transition: transform .45s cubic-bezier(.2,.75,.25,1), filter .35s ease;
+  will-change: transform;
+}
+.x-gallery .x-pile-photo:first-child { margin-left: 0; z-index: 1; }
+.x-gallery .x-pile-photo:nth-child(2) { z-index: 3; }
+.x-gallery .x-pile-photo:nth-child(3) { z-index: 2; }
+.x-gallery .x-pile-photo:hover,
+.x-gallery .x-pile-photo:focus-within {
+  z-index: 5;
+  transform: rotate(0deg) translateY(-8px) scale(1.035);
+  filter: drop-shadow(0 14px 18px rgb(0 0 0 / .18));
+}
+@media (max-width: 720px) {
+  .x-gallery .x-pile { padding-inline: 8px !important; }
+  .x-gallery .x-pile-photo { margin-left: -10px; }
+  .x-gallery .x-pile-photo:first-child { margin-left: 0; }
+  .x-gallery .x-pile-photo .x-spec { font-size: clamp(9px, 2.35vw, 12px); line-height: 1.25; padding: 7px 6px; }
+  .x-gallery .x-pile-photo:hover,
+  .x-gallery .x-pile-photo:focus-within { transform: rotate(0deg) translateY(-4px) scale(1.015); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-gallery .x-pile-photo { transition: none !important; }
+}
+
+/* On phones, vertical page scrolling pins the cards and advances them sideways. */
+@media (max-width: 720px) {
+  .x-offer[data-mobile-pin] { position: relative; height: auto !important; margin-bottom: 0 !important; }
+  .x-offer[data-mobile-pin] .x-mobile-reel-pin { position: relative; width: 100%; }
+  .x-offer[data-mobile-pin] .x-reel-frame {
+    position: sticky; top: 0; height: 100svh; box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 72px 0 28px; overflow: hidden;
+  }
+  .x-offer[data-mobile-pin] .x-reel-top { flex: none; padding-inline: 18px; margin-bottom: 22px; }
+  .x-offer[data-mobile-pin] .x-reel-track {
+    display: flex; flex: none; width: max-content; gap: 14px;
+    padding: 0 18px 12px; overflow: visible; scroll-snap-type: none;
+    scroll-padding: 0; will-change: transform;
+  }
+  .x-offer[data-mobile-pin] .x-reel-card {
+    flex: 0 0 min(78vw, 320px); width: min(78vw, 320px); scroll-snap-align: none;
+  }
+}
+@media (max-width: 720px) {
+  .x-offer[data-mobile-pin] .x-offer-menu {
+    position: relative !important; inset: auto !important; width: 100% !important;
+  }
+}
