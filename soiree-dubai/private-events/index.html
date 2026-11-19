@@ -892,4 +892,35 @@ footer p {font-size:13px;margin:0}
   else init();
 })();
 </script>
+<script id="soiree-scroll-reveal-fix">
+(() => {
+  const init = () => {
+    const roots = [...document.querySelectorAll('[data-motion-root]')];
+    const targets = new Set();
+    roots.forEach((root) => {
+      root.setAttribute('data-motion', 'live');
+      root.querySelectorAll('[data-reveal]').forEach((el) => targets.add(el));
+      root.querySelectorAll('[data-reveal-children]').forEach((group) => {
+        [...group.children].forEach((el) => targets.add(el));
+      });
+    });
+    const reveal = (el) => el.setAttribute('data-inview', '');
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      targets.forEach(reveal);
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+    targets.forEach((el) => observer.observe(el));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
+  else init();
+})();
+</script>
 </body></html>
